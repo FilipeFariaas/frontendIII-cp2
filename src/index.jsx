@@ -6,13 +6,45 @@ import Navbar from "./Components/Navbar";
 import Home from "./Routes/Home";
 import Footer from "./Components/Footer";
 import "./index.css";
+import {createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
+import App from "./App";
+// import * as path from "path";
+import Login from "./Routes/Login";
+// import Data from "bootstrap/js/src/dom/data";
+import Detail from "./Routes/Detail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const appRouter = createBrowserRouter([
+    {
+        path: '',
+        element: <App />,
+        children: [
+            {
+                path: 'home',
+                element: <Home />
+            },
+            {
+                path: 'login',
+                element: <Login />
+            },
+            {
+                path: 'detail',
+                element: <Detail />
+            },
+            {
+                path: '',
+                loader: () => redirect('/home')
+            }
+        ]
+    }
+])
+
 //Lembre-se de configurar suas rotas e seu contexto aqui
 root.render(
-  <React.StrictMode>
-    <Navbar />
-    <Home />
-    <Footer />
-  </React.StrictMode>
+    <React.StrictMode>
+        {/*<Navbar />*/}
+        {/*<Home />*/}
+        {/*<Footer />*/}
+        <RouterProvider router={appRouter} />
+    </React.StrictMode>
 );
