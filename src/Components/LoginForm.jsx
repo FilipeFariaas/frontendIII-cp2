@@ -1,7 +1,40 @@
 import styles from "./Form.module.css";
+import {useState} from "react";
+import {response} from "msw";
+import {redirect} from "react-router-dom";
+import {useTheme} from "../hooks/useTheme";
 
 const LoginForm = () => {
-  const handleSubmit = (e) => {
+  const {theme} = useTheme()
+
+  const [username, setUsername] = useState('dentistaAdmin')
+  const [password, setPassword] = useState('admin123')
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const requestOptions = {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "username": username,
+        "password": password
+      })
+    };
+
+    try {
+      fetch('https://dhodonto.ctdprojetos.com.br/auth', requestOptions)
+        .then(response => response.json())
+        .then(token => localStorage.setItem('token', token.token));
+
+      alert('logged in')
+
+      return redirect("/home");
+    } catch (err) {
+      alert('error')
+      console.error(err)
+    }
+
     //Nesse handlesubmit você deverá usar o preventDefault,
     //enviar os dados do formulário e enviá-los no corpo da requisição 
     //para a rota da api que faz o login /auth
@@ -16,14 +49,17 @@ const LoginForm = () => {
       {/* //Na linha seguinte deverá ser feito um teste se a aplicação
         // está em dark mode e deverá utilizar o css correto */}
       <div
-        className={`text-center card container ${styles.card}`}
+        className={`text-center card container ${styles.card}
+        ${theme === 'dark' ? styles.cardDark : ''}`}
       >
         <div className={`card-body ${styles.CardBody}`}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={event => handleSubmit(event)}>
             <input
               className={`form-control ${styles.inputSpacing}`}
               placeholder="Login"
               name="login"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
               required
             />
             <input
@@ -31,9 +67,14 @@ const LoginForm = () => {
               placeholder="Password"
               name="password"
               type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
               required
             />
-            <button className="btn btn-primary" type="submit">
+            <button
+              className="btn btn-primary"
+              type="submit"
+            >
               Send
             </button>
           </form>

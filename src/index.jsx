@@ -12,6 +12,7 @@ import App from "./App";
 import Login from "./Routes/Login";
 // import Data from "bootstrap/js/src/dom/data";
 import Detail from "./Routes/Detail";
+import {ThemeProvider} from "./hooks/useTheme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const appRouter = createBrowserRouter([
@@ -32,6 +33,10 @@ const appRouter = createBrowserRouter([
                 element: <Detail />
             },
             {
+                path: 'dentist/:id',
+                element: <Detail />
+            },
+            {
                 path: '',
                 loader: () => redirect('/home')
             }
@@ -45,6 +50,8 @@ root.render(
         {/*<Navbar />*/}
         {/*<Home />*/}
         {/*<Footer />*/}
-        <RouterProvider router={appRouter} />
+        <ThemeProvider>
+            <RouterProvider router={appRouter} />
+        </ThemeProvider>
     </React.StrictMode>
 );

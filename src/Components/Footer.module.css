@@ -24,7 +24,12 @@
   filter: brightness(0);
 }
 
-.iconsDark{
+.icons-dark {
+  filter: brightness(100);
+}
+
+.iconsDark,
+.dhLogoDark{
   filter: brightness(0) invert(1);
 }
 

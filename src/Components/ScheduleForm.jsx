@@ -2,17 +2,69 @@ import { useContext, useEffect, useState } from "react";
 import styles from "./ScheduleForm.module.css";
 
 const ScheduleForm = () => {
+  const [dentists, setDentists] = useState([])
+  const [patients, setPatients] = useState([])
+
+  function getDentists() {
+    return fetch(`https://dhodonto.ctdprojetos.com.br/dentista`).then(
+      response => {
+        // console.log(response)
+        response.json().then(
+          dentists => {
+            // console.log(dentists)
+            if(dentists === undefined) {
+
+              console.log("Error!")
+
+            } else {
+
+              dentists > 1 ? setDentists([...dentists]) : setDentists(dentists)
+
+            }
+          }
+        )
+      }
+    )
+  }
+
+  function getPatients() {
+    return fetch(`https://dhodonto.ctdprojetos.com.br/paciente`).then(
+      response => {
+        // console.log(response)
+        response.json().then(
+          patients => {
+            // console.log(dentists)
+            if(patients === undefined) {
+
+              console.log("Error!")
+
+            } else {
+
+              patients > 1 ? setPatients([...patients]) : setPatients(patients)
+
+            }
+          }
+        )
+      }
+    )
+  }
+
   useEffect(() => {
+    getDentists()
+    getPatients()
     //Nesse useEffect, você vai fazer um fetch na api buscando TODOS os dentistas
     //e pacientes e carregar os dados em 2 estados diferentes
   }, []);
+
+  // console.log(dentists)
+  // console.log(patients)
 
   const handleSubmit = (event) => {
     //Nesse handlesubmit você deverá usar o preventDefault,
     //obter os dados do formulário e enviá-los no corpo da requisição 
     //para a rota da api que marca a consulta
     //lembre-se que essa rota precisa de um Bearer Token para funcionar.
-    //Lembre-se de usar um alerta para dizer se foi bem sucedido ou ocorreu um erro
+    //Lembre-se de usar um alerta para dizer se foi bem-sucedido ou ocorreu um erro
   };
 
   return (
@@ -30,10 +82,14 @@ const ScheduleForm = () => {
                 Dentist
               </label>
               <select className="form-select" name="dentist" id="dentist">
-                {/*Aqui deve ser feito um map para listar todos os dentistas*/}
-                <option key={'Matricula do dentista'} value={'Matricula do dentista'}>
-                  {`Nome Sobrenome`}
-                </option>
+                {/*Aqui deve ser feito um map para listar todos os dentistas*/
+                dentists.map(dentist => (
+                  <option key={dentist.matricula} value={dentist.matricula}>
+                    {`${dentist.nome} ${dentist.sobrenome}`}
+                  </option>
+                ))
+
+                }
               </select>
             </div>
             <div className="col-sm-12 col-lg-6">
@@ -43,7 +99,7 @@ const ScheduleForm = () => {
               <select className="form-select" name="patient" id="patient">
                 {/*Aqui deve ser feito um map para listar todos os pacientes*/}
                 <option key={'Matricula do paciente'} value={'Matricula do paciente'}>
-                  {`Nome Sobrenome`}
+                  {`Paciente`}
                 </option>
               </select>
             </div>
