@@ -1,11 +1,12 @@
 import styles from "./Form.module.css";
 import {useState} from "react";
 import {response} from "msw";
-import {redirect} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 import {useTheme} from "../hooks/useTheme";
 
 const LoginForm = () => {
   const {theme} = useTheme()
+  const navigate = useNavigate()
 
   const [username, setUsername] = useState('dentistaAdmin')
   const [password, setPassword] = useState('admin123')
@@ -28,8 +29,8 @@ const LoginForm = () => {
         .then(token => localStorage.setItem('token', token.token));
 
       alert('logged in')
-
-      return redirect("/home");
+      navigate('/home')
+      // return redirect("/home");
     } catch (err) {
       alert('error')
       console.error(err)
