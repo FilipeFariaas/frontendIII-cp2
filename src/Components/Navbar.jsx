@@ -1,8 +1,24 @@
 import styles from "./Navbar.module.css";
 import {useTheme} from "../hooks/useTheme";
+import {useEffect} from "react";
 
 const Navbar = () => {
   const {theme, changeTheme} = useTheme()
+  // function handleLogin() {
+  //   if (localStorage.getItem('token')) {
+  //     localStorage.removeItem('token')
+  //   }
+  // }
+
+  useEffect(() => {
+    // if (localStorage.getItem('token')) {
+    //   localStorage.removeItem('token')
+    // }
+
+    console.log(localStorage.getItem('token'))
+    //Nesse useEffect, você vai fazer um fetch na api buscando TODOS os dentistas
+    //e pacientes e carregar os dados em 2 estados diferentes
+  }, []);
 
   return (
     <header className="sticky-top">
@@ -48,7 +64,7 @@ const Navbar = () => {
                 O botão de logout deverá ser testado darkmode
                 se sim, btn-dark, se não, btn-light */}
                 <a className="nav-link" href="/login">
-                  Login
+                  {localStorage.getItem('token') ? 'Logout' : 'Login' }
                 </a>
               </li>
               <li className={`nav-item`}>

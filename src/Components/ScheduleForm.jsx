@@ -40,7 +40,7 @@ const ScheduleForm = () => {
 
             } else {
 
-              patients > 1 ? setPatients([...patients]) : setPatients(patients)
+              patients > 1 ? setPatients([...patients.body]) : setPatients(patients.body)
 
             }
           }
@@ -97,10 +97,13 @@ const ScheduleForm = () => {
                 Patient
               </label>
               <select className="form-select" name="patient" id="patient">
-                {/*Aqui deve ser feito um map para listar todos os pacientes*/}
-                <option key={'Matricula do paciente'} value={'Matricula do paciente'}>
-                  {`Paciente`}
+                {/*Aqui deve ser feito um map para listar todos os pacientes*/
+                patients.map(patient => (
+                <option key={patient.matricula} value={patient.matricula}>
+                  {`${patient.nome} ${patient.sobrenome}`}
                 </option>
+                ))
+                }
               </select>
             </div>
           </div>
