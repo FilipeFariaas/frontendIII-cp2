@@ -30,7 +30,7 @@
 
 .iconsDark,
 .dhLogoDark{
-  filter: brightness(0) invert(1);
+  filter: brightness(100);
 }
 
 .dhLogo{

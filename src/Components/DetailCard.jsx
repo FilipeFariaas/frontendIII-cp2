@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import ScheduleFormModal from "./ScheduleFormModal";
 import styles from "./DetailCard.module.css";
@@ -30,8 +31,6 @@ const DetailCard = (props) => {
     //id do dentista que está vindo do react-router e carregar os dados em algum estado
   }, []);
 
-  // console.log(dentist.usuario)
-
   return (
     //As instruções que estão com {''} precisam ser 
     //substituídas com as informações que vem da api
@@ -57,7 +56,7 @@ const DetailCard = (props) => {
                 Sobrenome: {`${dentist.sobrenome}`}
               </li>
               <li className="list-group-item">
-                Usuário: {`${dentist.usuario}`}
+                Matrícula: {`${dentist.matricula}`}
               </li>
             </ul>
             <div className="text-center">

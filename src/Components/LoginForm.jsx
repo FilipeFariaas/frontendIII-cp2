@@ -1,17 +1,18 @@
 import styles from "./Form.module.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {response} from "msw";
 import {redirect, useNavigate} from "react-router-dom";
 import {useTheme} from "../hooks/useTheme";
-import {useLocalStorage} from "../hooks/useLocalStorage";
+// import {useLocalStorage} from "../hooks/useLocalStorage";
 
 const LoginForm = () => {
   const {theme} = useTheme()
   const navigate = useNavigate()
-  const [token, setToken] = useLocalStorage('', 'token')
+  // const [token, setToken] = useLocalStorage('', 'token')
 
   const [username, setUsername] = useState('dentistaAdmin')
   const [password, setPassword] = useState('admin123')
+
   const handleSubmit = (event) => {
     event.preventDefault()
 

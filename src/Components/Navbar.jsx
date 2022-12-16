@@ -5,19 +5,29 @@ import {useEffect, useState} from "react";
 const Navbar = () => {
   const {theme, changeTheme} = useTheme()
   const [logged, setLogged] = useState(false)
+  const token = localStorage.getItem('token')
+
+  const logout = () => {
+    localStorage.removeItem('token')
+  }
+  function handleLogout() {
+    if (token) {
+      localStorage.removeItem('token')
+    }
+  }
   // function handleLogin() {
   //   if (localStorage.getItem('token')) {
   //     localStorage.removeItem('token')
   //   }
   // }
 
-  useEffect(() => {
-    if (!localStorage.getItem('token') > 1) {
-      setLogged(true)
-    }
-
-    // console.log(localStorage.getItem('token'))
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     setLogged(true)
+  //   }
+  //
+  //   console.log(localStorage.getItem('token'))
+  // }, []);
 
   return (
     <header className="sticky-top">
@@ -62,10 +72,11 @@ const Navbar = () => {
                 ao formulário de login
                 O botão de logout deverá ser testado darkmode
                 se sim, btn-dark, se não, btn-light */}
-                <a className="nav-link" href="/login">
+                {/*<a className="nav-link" href="/login">*/}
                   {/*{localStorage.getItem('token') ? 'Logout' : 'Login' }*/}
-                  {logged ? 'Logout' : 'Login' }
-                </a>
+                  {token === null ? (<a className="nav-link" href="/login" onClick={logout}>Login</a>)
+                    : (<a className="nav-link" href="/login" onClick={logout}>Logout</a>)}
+                {/*</a>*/}
               </li>
               <li className={`nav-item`}>
                 {/* Ao ser clicado, esse botão mudará a aplicação para dark mode ou light mode.
