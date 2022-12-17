@@ -7,10 +7,8 @@ const Home = () => {
   useEffect(() => {
     fetch(`https://dhodonto.ctdprojetos.com.br/dentista`).then(
       response => {
-        // console.log(response)
         response.json().then(
           dentists => {
-            // console.log(dentists)
             if(dentists === undefined) {
 
               console.log("Error!")
@@ -24,10 +22,6 @@ const Home = () => {
         )
       }
     )
-
-    //Nesse useEffect, deverá ser obtido todos os dentistas da API
-    //Armazena-los em um estado para posteriormente fazer um map
-    //Usando o componente <Card />
   }, []);
 
   return (

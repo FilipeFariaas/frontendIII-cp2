@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ScheduleForm.module.css";
-import {useNavigate} from "react-router-dom";
 
 const ScheduleForm = () => {
   const [dentists, setDentists] = useState([])
@@ -11,15 +10,12 @@ const ScheduleForm = () => {
 
   const [date, setDate] = useState([])
   const [token, setToken] = useState("")
-  const navigate = useNavigate()
 
   function getDentists() {
     return fetch(`https://dhodonto.ctdprojetos.com.br/dentista`).then(
       response => {
-        // console.log(response)
         response.json().then(
           dentists => {
-            // console.log(dentists)
             if(dentists === undefined) {
 
               console.log("Error!")
@@ -38,10 +34,8 @@ const ScheduleForm = () => {
   function getPatients() {
     return fetch(`https://dhodonto.ctdprojetos.com.br/paciente`).then(
       response => {
-        // console.log(response)
         response.json().then(
           patients => {
-            // console.log(dentists)
             if(patients === undefined) {
 
               console.log("Error!")
@@ -63,37 +57,17 @@ const ScheduleForm = () => {
     getDentists()
     getPatients()
 
-
-    //Nesse useEffect, você vai fazer um fetch na api buscando TODOS os dentistas
-    //e pacientes e carregar os dados em 2 estados diferentes
   }, []);
 
-  // console.log(dentists)
-  // console.log(patients)
 
   const handleSubmit = (event) => {
-    //Nesse handlesubmit você deverá usar o preventDefault,
-    //obter os dados do formulário e enviá-los no corpo da requisição 
-    //para a rota da api que marca a consulta
-    //lembre-se que essa rota precisa de um Bearer Token para funcionar.
-    //Lembre-se de usar um alerta para dizer se foi bem-sucedido ou ocorreu um erro
+
     event.preventDefault()
-
-
-    // const requestOptions = {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     "username": username,
-    //     "password": password
-    //   })
-    // };
 
     if (token === "" || token === null) {
 
       alert("Usuário não autorizado.");
-      window.location.href = "http://localhost:3000/login"
+      window.location.href = "/login"
 
     } else if (patientId === "" || dentistId === "" || date === "") {
 
@@ -127,24 +101,18 @@ const ScheduleForm = () => {
 
               alert("Consulta marcada com sucesso! Você será redirecionado para a Home.");
 
-              setTimeout(() => window.location.href = "http://localhost:3000/home", 2000);
-              // setTimeout(() => navigate('/home'), 4000);
-              // navigate('/home')
+              setTimeout(() => window.location.href = "/home", 2000);
             })
             .catch((e) => {
               alert("Erro ao enviar a requisição.");
             });
         }
       );
-      // navigate('/home')
     }
-
   };
 
   return (
     <>
-      {/* //Na linha seguinte deverá ser feito um teste se a aplicação
-        // está em dark mode e deverá utilizar o css correto */}
       <div
         className={`text-center container}`
         }
@@ -162,13 +130,12 @@ const ScheduleForm = () => {
                 onChange={e => setDentistId(e.target.value)}
               >
                 <option>-- select --</option>
-                {/*Aqui deve ser feito um map para listar todos os dentistas*/
+                {
                 dentists.map(dentist => (
                   <option key={dentist.matricula} value={dentist.matricula}>
                     {`${dentist.nome} ${dentist.sobrenome}`}
                   </option>
                 ))
-
                 }
               </select>
             </div>
@@ -183,7 +150,7 @@ const ScheduleForm = () => {
                 onChange={e => setPatientId(e.target.value)}
               >
                 <option>-- select --</option>
-                {/*Aqui deve ser feito um map para listar todos os pacientes*/
+                {
                 patients.map(patient => (
                 <option key={patient.matricula} value={patient.matricula}>
                   {`${patient.nome} ${patient.sobrenome}`}
@@ -209,8 +176,6 @@ const ScheduleForm = () => {
             </div>
           </div>
           <div className={`row ${styles.rowSpacing}`}>
-            {/* //Na linha seguinte deverá ser feito um teste se a aplicação
-        // está em dark mode e deverá utilizar o css correto */}
             <button
               className={`btn btn-light ${styles.button
                 }`}
